@@ -1,0 +1,52 @@
+CREATE DATABASE examen_progra
+    WITH 
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'Spanish_Costa Rica.1252'
+    LC_CTYPE = 'Spanish_Costa Rica.1252'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+
+
+--Ejecutar el de arriba solo despues los demás
+
+CREATE TABLE public.productos
+(
+    id_producto SERIAL NOT NULL,
+    nombre character varying(40) COLLATE pg_catalog."default",
+    precio integer,
+    tipo character varying(7) COLLATE pg_catalog."default",
+    CONSTRAINT productos_pkey PRIMARY KEY (id_producto)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.productos
+    OWNER to postgres;
+
+
+
+
+CREATE TABLE public.compras
+(
+    id_compras SERIAL NOT NULL,
+    nombre_usuario character varying(40) COLLATE pg_catalog."default",
+    edad integer,
+    genero boolean,
+    productofk integer,
+    fecha date,
+    CONSTRAINT compras_pkey PRIMARY KEY (id_compras),
+    CONSTRAINT compras_productofk_fkey FOREIGN KEY (productofk)
+        REFERENCES public.productos (id_producto) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.compras
+    OWNER to postgres;
